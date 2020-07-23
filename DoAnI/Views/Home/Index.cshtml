@@ -1,0 +1,13 @@
+﻿@using DoAnI.Models;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Layouts/HomeLayout.cshtml";
+    IEnumerable<SanPham> lstDTM = ViewBag.lstDTM as IEnumerable<SanPham>;
+    IEnumerable<SanPham> lstLTM = ViewBag.lstLTM as IEnumerable<SanPham>;
+    IEnumerable<SanPham> lstMTBM = ViewBag.lstMTBM as IEnumerable<SanPham>;
+}
+
+
+@Html.Partial("~/Views/SanPham/SanPhamPartial.cshtml", lstDTM)
+@Html.Partial("~/Views/SanPham/SanPhamPartial.cshtml", lstLTM)
+@Html.Partial("~/Views/SanPham/SanPhamPartial.cshtml", lstMTBM)

@@ -1,0 +1,90 @@
+﻿@using DoAnI.Models;
+@model KhachHang
+@{
+    ViewBag.Title = "Sua";
+    Layout = "~/Areas/admin/Views/Shared/AdminLayout.cshtml";
+}
+
+<h2 style="color:#00ffff">Sửa thông tin khách hàng</h2>
+@using (Html.BeginForm())
+{
+    @Html.Hidden("MaKH", Model.MaKH)
+    <div class="form-horizontal">
+        <div class="form-group">
+            <span class="control-label col-md-2">Tên Khách Hàng:</span>
+            <div class="col-md-10">
+                @Html.EditorFor(m => m.TenKH, "TenKH")
+                <p id="tb_TenKH" style="color:#ff6a00"></p>
+            </div>
+        </div>
+        <div class="form-group">
+            <span class="control-label col-md-2">Địa chỉ:</span>
+            <div class="col-md-10">
+                @Html.TextAreaFor(m => m.DiaChi, "DiaChi")
+                <p id="tb_DiaChi" style="color:#ffd800"></p>
+            </div>
+        </div>
+        <div class="form-group">
+            <span class="control-label col-md-2">Email:</span>
+            <div class="col-md-10">
+                @Html.EditorFor(m => m.Email, "Email")
+                <p id="tb_Email" style="color:#ff6a00"></p>
+            </div>
+        </div>
+        <div class="form-group">
+            <span class="control-label col-md-2">Số điện thoại:</span>
+            <div class="col-md-10">
+                @Html.EditorFor(m => m.SoDienThoai, "SoDienThoai")
+                <p id="tb_SoDienThoai" style="color:#ff6a00"></p>
+            </div>
+        </div>
+        <div class="form-group">
+            <span class="control-label col-md-2">Mã thành viên:</span>
+            <div class="col-md-10">
+                @Html.EditorFor(m => m.MaTV, "MaTV")
+            </div>
+        </div>
+        <input type="submit" class="btn btn-warning" value="Lưu" id="btnLuu" />
+        <a href="@Url.Action("Index")" class="btn btn-info" role="button">Quay lại</a>
+    </div>
+}
+<script>
+    $("#btnLuu").click(function () {
+        var loi = 0;
+        var dinh_dang = /^[a-zA-Z0-9]+[a-zA-Z0-9_]*@@[\w\d.]+\.\w{2,6}$/;
+        var ktmail = dinh_dang.test($("#Email").val());
+
+        if ($("#Email").val() == "") {
+            loi++;
+            $("#tb_Email").text("Email không được để trống");
+        } else {
+            if (!ktmail) {
+                loi++;
+                $("#tb_Email").text("Email không hợp lệ");
+            }
+        }
+        if ($("#TenKH").val() == "") {
+            loi++;
+            $("#tb_TenKH").text("Tên khách hàng không được để trống");
+        } else {
+            $("#tb_TenKH").text("");
+        }
+        if ($("#DiaChi").val() == "") {
+            loi++;
+            $("#tb_DiaChi").text("Địa chỉ không được để trống");
+        } else {
+            $("#tb_DiaChi").text("");
+        }
+        if ($("#SoDienThoai").val() == "") {
+            loi++;
+            $("#tb_SoDienThoai").text("Vui lòng nhập số điện thoại");
+        } else {
+            $("#tb_SoDienThoai").text("");
+        }
+        if (loi != 0) {
+            return false;
+        }
+    })
+</script>
+
+

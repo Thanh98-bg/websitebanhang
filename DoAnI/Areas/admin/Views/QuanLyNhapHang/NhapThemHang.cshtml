@@ -1,0 +1,84 @@
+﻿@using DoAnI.Models;
+@model SanPham
+@{
+    ViewBag.Title = "NhapThemHang";
+    Layout = "~/Areas/admin/Views/Shared/AdminLayout.cshtml";
+    IEnumerable<NhaCungCap> lstNCC = ViewBag.MaNCC as IEnumerable<NhaCungCap>;
+}
+
+
+
+@* khai báo link để dùng datetime picker *@
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+    $(function () {
+        $("#datepicker").datepicker();
+    });
+</script>
+<div class="col-md-2 single-top">
+
+    <img style="width:130px;height:130px;" src="@Url.Content("~/Content/images/"+Model.HinhAnh)" alt="">
+
+</div>
+<div class="col-md-10 ">
+    <div>
+        <h4 style="color:#fff">@Model.TenSP</h4>
+        <br />
+        <div>
+            <span style="color:#fff">@Model.DonGia.Value.ToString("#,##") vnđ</span>
+            <div class="clearfix"></div>
+        </div>
+        <br />
+        <h5 style="color:#fff">Số lượng tồn: @Model.SoLuongTon</h5>
+        <hr />
+    </div>
+</div>
+<div class="clearfix"></div>
+@using (Html.BeginForm())
+{
+    <div class="clearfix"></div>
+    <div class="form-group">
+        <span class="control-label col-md-2">Nhà cung cấp:</span>
+        <div class="col-md-10">
+            <select name="MaNCC">
+                @foreach (var item in lstNCC)
+                {
+                    <option value="@item.MaNCC">@item.TenNCC</option>
+                }
+            </select>
+        </div>
+    </div>
+    <br />
+    <br />
+    <div class="form-group">
+        <span class="control-label col-md-2">Ngày nhập:</span>
+        <div class="col-md-10">
+            @Html.TextBox("NgayNhap", "", new { @id = "datepicker" })
+        </div>
+    </div>
+    <br /><br />
+    <div class="form-group">
+        <span class="control-label col-md-2">Đơn giá nhập: </span>
+        <div class="col-md-10">
+            @Html.TextBox("DonGiaNhap", "0")
+        </div>
+    </div>
+    <br /><br />
+    <div class="form-group">
+        <span class="control-label col-md-2">Số lượng nhập: </span>
+        <div class="col-md-10">
+            @Html.TextBox("SoLuongNhap", 0);
+        </div>
+    </div>
+    <br /><br />
+    <input type="submit" value="Nhập" style="color:#fff;background-color:#0026ff" class="btn" />
+    <a href="@Url.Action("NhapHangDon")">
+        <input type="button" value="Trở lại" style="color:#fff;background-color:#ff6a00" class="btn" />
+    </a>
+}
+
+
+

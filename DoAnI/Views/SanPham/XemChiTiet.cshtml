@@ -1,0 +1,70 @@
+﻿@using DoAnI.Models;
+@model SanPham
+@{
+    ViewBag.Title = "XemChiTiet";
+    Layout = "~/Views/Layouts/ProductLayout.cshtml";
+}
+
+<div class="section group">
+    <div class="cont-desc span_1_of_2">
+        <div class="grid images_3_of_2">
+            <img src="@Url.Content("~/Content/images/"+Model.HinhAnh)" alt="" style="height:270px" />
+        </div>
+        <div class="desc span_3_of_2">
+            <h2>@Model.TenSP</h2>
+            <p>@Html.Raw(Model.CauHinh)</p>
+            <div class="price">
+                <p>Giá bán: <span>@Model.DonGia.Value.ToString("#,##") VNĐ</span></p>
+            </div>
+            <div class="add-cart">
+                <div class="rating">
+                    <p>Xếp hạng:<img src="~/Content/images/rating.png"><span>[3 trên 5 sao]</span></p>
+                </div>
+                <div class="button">
+                <span>
+                    @*<a href="#">Thêm vào giỏ</a>*@
+                    @Ajax.ActionLink("Thêm vào giỏ", "ThemGioHangAjax", "GioHang", new { @MaSP = Model.MaSP }, new AjaxOptions { UpdateTargetId = "divGioHang", InsertionMode = InsertionMode.Replace }, new { @class = "btn cart-button " })
+                    </span>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="product-desc">
+            <h2>Thông tin sản phẩm</h2>
+            <p>@Html.Raw(Model.MoTa)</p>
+        </div>
+    </div>
+    <div class="rightsidebar span_3_of_1">
+        <h2>Thể loại</h2>
+        <ul>
+            <li><a href="#">Điện thoại</a></li>
+            <li><a href="#">Máy tính bảng</a></li>
+            <li><a href="#">Laptop</a></li>
+        </ul>   
+        <h2>Xem thêm sản phẩm</h2> 
+        <a href="@Url.RouteUrl("xemchitiet", new { @id = 11, @bidanh = "Samsung_Galaxy_A10s" })">
+            <img src="/Content/images/MAU-UP-WEB-9.jpg" alt="" style="width:100px;height:130px;" />
+        </a>
+        <p style="color:violet">Samsung Galaxy A10s</p>
+        <hr />
+        <a href="@Url.RouteUrl("xemchitiet", new { @id = 2, @bidanh = "Asus_E203MAH" })">
+            <img src="/Content/images/Asus_E203MAH.jfif" alt="" style="width:100px;height:130px;" />
+        </a>
+        <p style="color:violet">Asus E203MAH</p>
+        <hr />
+        <a href="@Url.RouteUrl("xemchitiet", new { @id = 12, @bidanh = "Realme_3_Pro_Blue" })">
+            <img src="/Content/images/realme-3-pro-blue.png" alt="" style="width:100px;height:130px;" />
+        </a>
+        <p style="color:violet">Realme 3 Pro Blue</p>
+       
+
+    </div>
+</div>
+<script>
+    $(".cart-button").click(function () {
+        $.notify("Đã thêm vào giỏ hàng", "success");
+    })
+</script>
+
+
+                

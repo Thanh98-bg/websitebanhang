@@ -1,0 +1,47 @@
+﻿@model IEnumerable<DoAnI.Models.ThanhVien>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/admin/Views/Shared/AdminLayout.cshtml";
+}
+
+<div>
+    <table class="table table-bordered ">
+        <tr class="header-bg">
+            <th>Mã Thành Viên</th>
+            <th>Tài Khoản</th>
+            <th>Mật khẩu</th>
+            <th>Họ tên</th>
+
+            <th>Email</th>
+            <th>Số điện thoại</th>
+            <th>Mã loại thành viên</th>
+
+            <th></th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.MaTV</td>
+                <td>@item.TaiKhoan</td>
+                <td>@item.MatKhau</td>
+                <td>@item.HoTen</td>
+
+                <td>@item.Email</td>
+                <td>@item.SoDienThoai</td>
+                <td>@item.LoaiThanhVien.TenLoai</td>
+
+                <td>@Html.ActionLink("Sửa", "Sua", new { @id = item.MaTV })</td>
+            </tr>
+        }
+    </table>
+</div>
+
+<style>
+    .header-bg {
+        background-color: #a605c5;
+    }
+</style>
+
+
+

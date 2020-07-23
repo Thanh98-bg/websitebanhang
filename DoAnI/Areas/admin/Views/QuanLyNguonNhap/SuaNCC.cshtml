@@ -1,0 +1,38 @@
+﻿@using DoAnI.Models;
+@model NhaCungCap
+@{
+    ViewBag.Title = "SuaNCC";
+    Layout = "~/Areas/admin/Views/Shared/AdminLayout.cshtml";
+}
+
+<h2 style="color:#00ffff">Chỉnh sửa nhà cung cấp</h2>
+@using (Html.BeginForm())
+{
+    @Html.Hidden("MaNCC", Model.MaNCC)
+    <div class="form-horizontal">
+        <div class="form-group">
+            <span class="control-label col-md-2">Tên NCC</span>
+            @Html.TextBoxFor(m => m.TenNCC)
+        </div>
+        <div class="form-group">
+            <span class="control-label col-md-2">Địa chỉ</span>
+            @Html.TextAreaFor(m => m.DiaChi)
+        </div>
+        <div class="form-group">
+            <span class="control-label col-md-2">Email</span>
+            @Html.TextBoxFor(m => m.Email)
+        </div>
+        <div class="form-group">
+            <span class="control-label col-md-2">Số điện thoại</span>
+            @Html.TextBoxFor(m => m.SoDienThoai)
+        </div>
+        <div class="form-group">
+            <span class="control-label col-md-2">Fax</span>
+            @Html.TextBoxFor(m => m.Fax)
+        </div>
+    </div>
+    <input type="submit" class="btn btn-primary" value="Lưu" />
+}
+
+
+

@@ -1,0 +1,34 @@
+﻿<div class="header">
+    <div class="header_top">
+        <div class="logo">
+            <a href="~/Content/index.html"><img src="~/Content/images/logo.png" alt="" /></a>
+        </div>
+        <div class="header_top_right">
+            @Html.Partial("~/Views/Layouts/LoginPartial.cshtml")
+
+            <div class="shopping_cart" id="divGioHang">
+                @Html.Action("GioHangPartial", "GioHang")
+            </div>
+            <div class="search_box">
+                @*@using(Html.BeginForm("LayTuKhoaTimKiem","TimKiem")){
+                        <input name="sTuKhoa" type="text" value="Search for Products" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search for Products';}"><input type="submit" value="SEARCH">
+                    }*@
+                @using (Ajax.BeginForm("KQTimKiemPartial", "TimKiem", new AjaxOptions { @UpdateTargetId = "KQTimKiem", @InsertionMode = InsertionMode.Replace }))
+                {
+                    <input name="sTuKhoa" type="text" value="Search for Products" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search for Products';}">
+                    <input type="submit" value="SEARCH">
+                }
+            </div>
+
+
+
+
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    @Html.Action("MenuPartial", "Home")
+</div>
+<div style="height:150px">
+    <h1 style="color:red;margin-top:80px;margin-left:30%; ">Sản phẩm không tồn tại</h1>
+</div>

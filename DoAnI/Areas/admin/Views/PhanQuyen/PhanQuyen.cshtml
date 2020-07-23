@@ -1,0 +1,79 @@
+﻿@using DoAnI.Models;
+@model LoaiThanhVien
+@{
+    ViewBag.Title = "PhanQuyen";
+    Layout = "~/Areas/admin/Views/Shared/AdminLayout.cshtml";
+    IEnumerable<LoaiThanhVien_Quyen> lstPhanQuyen = ViewBag.lstPhanQuyen as IEnumerable<LoaiThanhVien_Quyen>;
+    IEnumerable<Quyen> lstQuyen = ViewBag.lstQuyen as IEnumerable<Quyen>;
+}
+
+
+<h2>Phân quyền </h2>
+<h2>
+    Loại thành viên
+    <span style="color:#00ffff">@Model.TenLoai</span>
+</h2>
+@using (Html.BeginForm())
+{
+    @Html.Hidden("MaLTV", Model.MaLoaiTV)
+    if (lstPhanQuyen.Count() == 0)
+    {
+        for (int i = 0; i < lstQuyen.Count(); i++)
+        {
+            <div class="col-md-4">
+                <input type="checkbox" class="cb_checked" name="@Url.Content("["+i+"].MaQuyen")" value="@lstQuyen.ElementAt(i).MaQuyen" style="width:20px;height:20px;" />
+                <span class="control-label">
+                    @lstQuyen.ElementAt(i).TenQuyen
+                </span>
+            </div>
+        }
+    }
+    else
+    {
+        for (int i = 0; i < lstQuyen.Count(); i++)
+        {
+            int k = 0;
+            for (int j = 0; j < lstPhanQuyen.Count(); j++)
+            {
+                if (lstQuyen.ElementAt(i).MaQuyen == lstPhanQuyen.ElementAt(j).MaQuyen)
+                {
+                    k++;
+                    break;
+                }
+            }
+            if (k == 0)
+            {
+                <div class="col-md-4">
+                    <input type="checkbox" class="cb_checked" name="@Url.Content("["+i+"].MaQuyen")" value="@lstQuyen.ElementAt(i).MaQuyen" style="width:20px;height:20px;" />
+                    <span class="control-label">
+                        @lstQuyen.ElementAt(i).TenQuyen
+                    </span>
+                </div>
+            }
+            else
+            {
+                <div class="col-md-4">
+                    <input type="checkbox" checked="checked" class="cb_checked" name="@Url.Content("["+i+"].MaQuyen")" value="@lstQuyen.ElementAt(i).MaQuyen" style="width:20px;height:20px;" />
+                    <span class="control-label">
+                        @lstQuyen.ElementAt(i).TenQuyen
+                    </span>
+                </div>
+            }
+        }
+    }
+    <input type="submit" class="btn btn-success" id="btn-thuchien" value="Thực hiện" />
+    <a href="@Url.Action("Index")" class="btn btn-warning" role="button">Trở lại</a>
+}
+<script>
+    $(".cb_checked").click(function () {
+        var i = 0;
+        $(".cb_checked").each(function () {
+            if ($(this).is(":checked")) {
+                $(this).attr("name", "[" + i + "].MaQuyen");
+                i++;
+            }
+        })
+    })
+</script>
+
+

@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewBag.Title = "ThemNSX";
+    Layout = "~/Areas/admin/Views/Shared/AdminLayout.cshtml";
+}
+
+<h2 style="color:#00ffff">Thêm Nhà Sản Xuất</h2>
+@using (Html.BeginForm())
+{
+    <div class="form-horizontal">
+        <div class="form-group">
+            <span class="control-label col-md-2">Tên NSX</span>
+            @Html.TextBox("TenNSX")
+        </div>
+        <div class="form-group">
+            <span class="control-label col-md-2">Thông tin</span>
+            @Html.TextBox("ThongTin")
+        </div>
+        <div class="form-group">
+            <span class="control-label col-md-2">Logo</span>
+            <input type="file" value="Chọn logo" class="btn" />
+        </div>
+    </div>
+    <input type="submit" class="btn btn-warning" value="Thêm" />
+    <a href="@Url.Action("Index")" class="btn btn-primary">Thoát</a>
+}
+
+

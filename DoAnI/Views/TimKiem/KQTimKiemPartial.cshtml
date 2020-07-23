@@ -1,0 +1,105 @@
+﻿@using DoAnI.Models;
+@model IEnumerable<SanPham>
+@{
+    int count = 0;
+    int pagesize = 4;
+    int pagenumber = 1;
+}
+    <div class="header">
+        <div class="header_top">
+            <div class="logo">
+                <a href="~/Content/index.html"><img src="~/Content/images/logo.png" alt="" /></a>
+            </div>
+            <div class="header_top_right">
+                @Html.Partial("~/Views/Layouts/LoginPartial.cshtml")
+
+                <div class="shopping_cart" id="divGioHang">
+                    @Html.Action("GioHangPartial", "GioHang")
+                </div>
+                <div class="search_box">
+                    @*@using(Html.BeginForm("LayTuKhoaTimKiem","TimKiem")){
+                            <input name="sTuKhoa" type="text" value="Search for Products" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search for Products';}"><input type="submit" value="SEARCH">
+                        }*@
+                    @using (Ajax.BeginForm("KQTimKiemPartial", "TimKiem", new AjaxOptions { @UpdateTargetId = "KQTimKiem", @InsertionMode = InsertionMode.Replace }))
+                    {
+                        <input name="sTuKhoa" type="text" value="nhập từ khóa cần tìm" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'nhập từ khóa cần tìm';}">
+                        <input type="submit" value="TÌM KIẾM">
+                    }
+                </div>
+
+              
+
+
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        @Html.Action("MenuPartial", "Home")
+    </div>
+
+    <div class="section group">
+        @foreach (var item in Model)
+        {
+            if (count % pagesize == 0 && count != 0)
+            {
+                pagenumber++;
+            }
+            <div class="@Url.Content("grid_1_of_4 images_1_of_4 Trang" + pagenumber.ToString())">
+                <a href="@Url.RouteUrl("xemchitiet", new {@id = item.MaSP,@bidanh=item.BiDanh })"><img src="@Url.Content("~/Content/images/"+item.HinhAnh)" alt="" style="width:200px;height:230px;" /></a>
+                <h2>@item.TenSP </h2>
+                <p>Mô tả ngắn gọn</p>
+                <p><span class="strike">$100 </span><span class="price">@item.DonGia.Value.ToString("#,##") vnđ</span></p>
+                <div class="button">
+                    <span>
+                        <img src="~/Content/images/cart.jpg" alt="" />
+
+                        @Ajax.ActionLink("Thêm vào giỏ", "ThemGioHangAjax", "GioHang", new { @MaSP = item.MaSP }, new AjaxOptions { UpdateTargetId = "divGioHang", InsertionMode = InsertionMode.Replace }, new { @class = "btn cart-button " })
+                    </span>
+                </div>
+                <div class="button"><span><a href="preview-3.html" class="details">Chi Tiết</a></span></div>
+            </div>
+            count++;
+        }
+        <div class="clearfix"> </div>
+        <div>
+            @for (int i = 1; i <= pagenumber; i++)
+            {
+                if (i == 1)
+                {
+                    <a class="linkTrang btn btn-primary active" data-sotrang="Trang1">1</a>
+                }
+                else
+                {
+                    <a class="linkTrang btn btn-primary" data-sotrang="@Url.Content("Trang"+i.ToString())">@i</a>
+                }             
+            }
+        </div>
+    </div>
+<style>
+    .grid_1_of_4 {
+        display: none;
+    }
+
+    .Trang1 {
+        display: block;
+    }
+
+    .linkTrang:hover {
+        cursor: pointer;
+    }
+</style>
+<script>
+    $(".cart-button").click(function () {
+        $.notify("Đã thêm vào giỏ hàng", "success");
+    })
+    $(".linkTrang").click(function () {
+        //cho tất cả các trang ẩn đi
+        $(".grid_1_of_4").hide();
+        //lấy số trang từ thẻ a
+        var sotrang = $(this).attr("data-sotrang");
+        //hiển thị trang
+        $("." + sotrang).show();
+        $(".linkTrang").removeClass("active");
+        $(this).addClass("active");
+    })
+</script>

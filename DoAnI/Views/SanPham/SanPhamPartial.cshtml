@@ -1,0 +1,80 @@
+﻿@using DoAnI.Models;
+
+@*@using PagedList;
+@using PagedList.Mvc;*@
+@model IEnumerable<SanPham>
+
+@*@{ PagedList.IPagedList<SanPham> lstPage;
+    int flag = int.Parse(Session["Flag"].ToString());
+    if (flag == 0) { 
+     lstPage = Model.OrderBy(n=>n.MaSP).ToPagedList(1,4);
+    }
+    else
+    {
+        int page =int.Parse(ViewBag.page);
+        lstPage = Model.OrderBy(n => n.MaSP).ToPagedList(page, 4);
+    }
+}*@
+<div class="content_top">
+    <div class="heading">
+        <h3>@Model.First().LoaiSanPham.TenLoai MỚI</h3>
+    </div>
+    <div class="sort">
+        <p>
+            Sort by:
+            <select>
+                <option>Lowest Price</option>
+                <option>Highest Price</option>
+                <option>Lowest Price</option>
+                <option>Lowest Price</option>
+                <option>Lowest Price</option>
+                <option>In Stock</option>
+            </select>
+        </p>
+    </div>
+    <div class="show">
+        <p>
+            Show:
+            <select>
+                <option>4</option>
+                <option>8</option>
+                <option>12</option>
+                <option>16</option>
+                <option>20</option>
+                <option>In Stock</option>
+            </select>
+        </p>
+    </div>
+    @*<div class="page-no">
+        @Html.PagedListPager(lstPage, pag => Url.Action("SanPhamPartial1","SanPham", new { @page = pag}))
+    </div>*@
+    <div class="clear"></div>
+</div>
+<div class="section group">
+    @foreach (var item in Model.Take(4))
+    {
+    <div class="grid_1_of_4 images_1_of_4">
+        <a href="@Url.RouteUrl("xemchitiet", new {@id = item.MaSP,@bidanh=item.BiDanh })"><img src="@Url.Content("~/Content/images/"+item.HinhAnh)" alt="" style="width:200px;height:230px;" /></a>
+        <h2>@item.TenSP </h2>
+        <p>    </p>
+        <p><span class="strike">$100 </span><span class="price">@item.DonGia.Value.ToString("#,##") vnđ</span></p>
+        <div class="button">
+           
+            <span>
+                <img src="~/Content/images/cart.jpg" alt="" />
+              
+                
+                @Ajax.ActionLink("Thêm vào giỏ", "ThemGioHangAjax", "GioHang", new { @MaSP = item.MaSP }, new AjaxOptions { UpdateTargetId = "divGioHang", InsertionMode = InsertionMode.Replace }, new { @class = "btn cart-button", @onclick = "notify()" })
+                
+            </span>
+        </div>
+        <div class="button"><span><a href="@Url.RouteUrl("xemchitiet", new {@id = item.MaSP,@bidanh=item.BiDanh })" class="details">Chi tiết</a></span></div>
+    </div>
+    }
+</div>
+<script>
+    
+    function notify(){
+        $.notify("Đã thêm vào giỏ hàng", "success");
+    }
+</script>

@@ -1,0 +1,42 @@
+﻿@using DoAnI.Models;
+@model IEnumerable<DonDatHang>
+
+@{
+    ViewBag.Title = "ChuaGiao";
+    Layout = "~/Areas/admin/Views/Shared/AdminLayout.cshtml";
+    WebGrid grid = new WebGrid(source: Model);
+}
+
+<ul class="nav nav-tabs" role="tablist">
+    <li><a href="@Url.Action("ChuaThanhToan")">Chưa Thanh Toán</a></li>
+    <li class="active"><a href="@Url.Action("ChuaGiao")">Chưa giao & Đã Thanh Toán</a></li>
+    <li><a href="@Url.Action("DaGiaoDaThanhToan")">Đã Giao & Đã Thanh Toán</a></li>
+</ul>
+@* Thể hiện dữ liệu thông qua control webgrid *@
+<br />
+<div class="col-md-12">
+    @grid.GetHtml(
+    tableStyle: "table  table-bordered",
+    headerStyle: "gridHead xanh_dt",
+    footerStyle: "gridFooter",
+    rowStyle: "gridRow",
+    alternatingRowStyle: "gridAltRow",
+    columns: grid.Columns(
+    grid.Column("MaDDH", "Mã đơn hàng"),
+    grid.Column("MaKH", "Tên khách hàng", format: p => p.MaKH != null ? p.KhachHang.TenKH : ""),
+    grid.Column("NgayDat", "Ngày đặt"),
+    grid.Column("TinhTrangGiaoHang", "Tình trạng giao hàng"),
+    grid.Column("NgayGiao", "Ngày giao"),
+    grid.Column("DaThanhToan", "Đã thanh toán"),
+    grid.Column("UuDai", "Ưu đãi"),
+    grid.Column("DaHuy", "Đã hủy"),
+    grid.Column(format: p => @Html.ActionLink("Duyệt đơn hàng", "DuyetDonHang", new { id = p.MaDDH }, new { @class = "" }))
+))
+</div>
+
+<style>
+    .xanh_dt, .xanh_dt th a {
+        color: #00ffff;
+        background-color: #b200ff;
+    }
+</style>

@@ -1,0 +1,147 @@
+﻿@using DoAnI.Models;
+@model List<ItemGioHang>
+
+@{
+    ViewBag.Title = "XemGioHang";
+    Layout = "~/Views/Layouts/ProductLayout.cshtml";
+}
+
+@if (Model.Count == 0)
+{
+    <h2>Giỏ hàng rỗng</h2>
+}
+else
+{
+    <table class="table">
+        <tr>
+            <th>Mã SP</th>
+            <th>Tên SP</th>
+            <th>Hình ảnh</th>
+            <th>Số lượng</th>
+            <th>Đơn giá</th>
+            <th>Thành tiền</th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>@item.MaSP</td>
+            <td>@item.TenSP</td>
+            <td><img src="@Url.Content("~/Content/images/"+item.HinhAnh)" width="50px" height="50px" /></td>
+            <td>@item.SoLuong</td>
+            <td>@item.DonGia.ToString("#,##") VNĐ</td>
+            <td>@item.ThanhTien.ToString("#,##") VNĐ</td>
+            <td>
+                @Html.ActionLink("Sửa", "SuaGioHang", new { @MaSP = item.MaSP })
+                @Html.ActionLink("Xóa", "XoaGioHang", new { @MaSP = item.MaSP })
+            </td>
+        </tr>
+        }
+
+    </table>
+    <div style="text-align:right">
+        @using (Html.BeginForm("DatHang", "GioHang"))
+        {
+            if (Session["TaiKhoan"] == null)
+            {
+                <table class="table">
+                    <tr>
+                        <td align="center" colspan="2"><h2>Thông tin liên hệ</h2></td>
+                    </tr>
+                    <tr>
+                        <td>Họ và tên:</td>
+                        <td class="col-md-7"  align="left">
+                            @Html.TextBox("TenKH", null, new { @class = "Do_dai" })
+                            <p style="color:red" id="TB_hoten"></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Địa chỉ:</td>
+                        <td  align="left">
+                            @Html.TextArea("DiaChi", new { @style="width:295px;" })
+                            <p style="color:red" id="TB_diachi"></p>                        
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Email:</td>
+                        <td  align="left">
+                            @Html.TextBox("Email", null, new { @class = "Do_dai" })
+                            <p style="color:red" id="TB_email"></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Số Điện Thoại:</td>
+                        <td  align="left">
+                            @Html.TextBox("SoDienThoai", null, new { @class = "Do_dai" })
+                            <p style="color:red" id="TB_sdt"></p>
+                        </td>
+                    </tr>
+                </table>
+            <style>
+                .Do_dai{
+                    width:300px;
+                    height:30px;
+                }
+            </style>
+            }
+            <div class="divDatHang">
+                    <input type="submit" class="btn btn-danger" value="Đặt hàng" id="btnDatHang"/>
+                    @Html.ActionLink("Mua tiếp", "Index", "Home", null, new { @class = "btn btn-success" })
+            </div>
+        }
+    </div>
+
+}
+
+@if (Session["TaiKhoan"] == null)
+{
+    <script>
+        $("#btnDatHang").click(function () {
+            var loi = 0;
+            //Kiểm tra họ tên
+            if ($("#TenKH").val() == "") {
+                loi ++;
+                $("#TB_hoten").text("Họ tên không được bỏ trống");
+      
+            } else {
+                $("#TB_hoten").text("");
+               
+            }
+            
+            //Kiểm tra địa chỉ
+            if ($("#DiaChi").val() == "") {
+                loi++;
+                $("#TB_diachi").text("Địa chỉ không được bỏ trống");
+ 
+            } else {
+                $("#TB_diachi").text("");
+            }
+            //Kiểm tra email
+            var dinh_dang = /^[a-zA-Z0-9]+[a-zA-Z0-9_]*@@[\w\d.]+\.\w{2,6}$/;
+            if ($("#Email").val() == "") {
+                loi++;
+                $("#TB_email").text("Email không được bỏ trống");
+            } else {
+                var KTemail = dinh_dang.test($("#Email").val());
+                if (!KTemail) {
+                    loi++;
+                    $("#TB_email").text("Email không hợp lệ");
+                } else {
+                    $("#TB_email").text("");
+                }
+            }
+            //Kiểm tra số điện thoại
+            if ($("#SoDienThoai").val() == "") {
+                loi++;
+                $("#TB_sdt").text("Số điện thoại không được bỏ trống");
+            } else {
+                $("#TB_sdt").text("");
+            }
+            //Nếu có lỗi, ngăn sự kiện submit
+            if (loi != 0) {
+                return false;
+            }
+        })
+    </script>
+}

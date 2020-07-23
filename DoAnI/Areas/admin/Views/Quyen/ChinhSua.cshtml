@@ -1,0 +1,24 @@
+﻿@using DoAnI.Models;
+@model Quyen
+@{
+    ViewBag.Title = "ChinhSua";
+    Layout = "~/Areas/admin/Views/Shared/AdminLayout.cshtml";
+}
+
+<h2>Chỉnh sửa</h2>
+@using (Html.BeginForm())
+{
+    <div class="form-group">
+        <span class="control-label col-md-2">Mã Quyền</span>
+        @Html.TextBoxFor(n => n.MaQuyen)
+    </div>
+    <div class="clearfix"></div>
+    <div class="form-group">
+        <span class="control-label col-md-2">Tên Quyền</span>
+        @Html.TextBoxFor(n => n.TenQuyen)
+    </div>
+    <div class="clearfix"></div>
+    <input type="submit" class="btn btn-success" value="Lưu" />
+}
+
+

@@ -1,0 +1,27 @@
+﻿@using DoAnI.Models;
+@model IEnumerable<LoaiThanhVien>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/admin/Views/Shared/AdminLayout.cshtml";
+}
+
+<h2>Loại thành viên</h2>
+<div class="col-md-6">
+    <table class="table table-bordered ">
+        <tr>
+            <th>Mã loại thành viên</th>
+            <th>Tên loại</th>
+            <th></th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.MaLoaiTV</td>
+                <td>@item.TenLoai</td>
+                <td>@Html.ActionLink("Phân quyền", "PhanQuyen", new { @id = item.MaLoaiTV })</td>
+            </tr>
+        }
+    </table>
+
+</div>
+

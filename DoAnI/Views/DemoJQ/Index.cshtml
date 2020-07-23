@@ -1,0 +1,82 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Layouts/HomeLayout.cshtml";
+}
+
+
+
+    
+
+
+<link href="~/Content/css/styleJQ.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/css/fontawesome-all.css" rel="stylesheet" />
+<link href="//fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i"
+      rel="stylesheet">
+@*<link href="~/Content/bootstrap.min.css" rel="stylesheet" />*@
+<input id="btnDangNhap" type="button" value="Đăng Nhập" class="btn btn-primary">
+
+<div id="popup_login">
+    <div class=" w3l-login-form ">
+        <button id="close-button" type="submit">X</button>
+        <h2 class="JQ">Login Here</h2>
+        <form action="#" method="POST">
+
+            <div class=" w3l-form-group">
+                <label>Username:</label>
+                <div class="groupJQ">
+                    <i class="fas fa-user"></i>
+                    <input type="text" class="form-control Taikhoan" placeholder="Username" required="required" />
+                </div>
+            </div>
+            <div class=" w3l-form-group">
+                <label>Password:</label>
+                <div class="groupJQ">
+                    <i class="fas fa-unlock"></i>
+                    <input type="password" class="form-control Matkhau" placeholder="Password" required="required" />
+                </div>
+            </div>
+            <div class="forgot">
+                <a href="#" class="JQ">Forgot Password?</a>
+                <p><input type="checkbox">Remember Me</p>
+            </div>
+            <button type="submit" id="btnLogin">Login</button>
+        </form>
+        <p class=" w3l-register-p">Don't have an account?<a href="#" class="registerJQ"> Register</a></p>
+    </div>
+</div>
+<style>
+    #popup_login {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.5);
+        z-index: 99;
+        display: none;
+    }
+</style>
+<script>
+    $("#btnDangNhap").click(function () {
+        $("#popup_login").show();
+        $(".h_menu").css("z-index", "0");
+    })
+    $("#close-button").click(function () {
+        $("#popup_login").hide();
+        $(".h_menu").css("z-index", "1");
+    })
+    $("#btnLogin").click(function () {
+        var tk = $(".Taikhoan").val();
+        var mk = $(".Matkhau").val();
+
+        if (tk == "") {
+            alert("Lỗi");
+            return;
+        } else {
+            alert("Tài khoản: " + tk + "\n Mật Khẩu: " + mk);
+        }
+    })
+</script>
+
+

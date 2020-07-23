@@ -1,0 +1,122 @@
+﻿
+@{
+    DoAnI.Models.ThanhVien tv = (DoAnI.Models.ThanhVien)Session["TaiKhoan"];
+}
+<div id="login" class="wrapper-dropdown" tabindex="1">
+    <img src="~/Content/images/login.png" alt="" title="login" />
+    <strong class="opencart"> </strong>
+    <ul class="dropdown">
+        @if (tv == null)
+        { 
+        <li id="btnDangNhap"><a href="#"><span>Đăng Nhập</span></a></li>
+        <li><a href="@Url.Action("DangKy","Home")">Đăng Ký</a></li>
+        }
+        else { 
+        <li><a href="#"><span>Chào @tv.TaiKhoan</span></a></li>
+        <li><a href="~/admin/home"><span>Quản lý</span></a></li>
+        <li>@Html.ActionLink("Đăng Xuất","DangXuat","Home")</li>
+        }
+    </ul>
+</div>
+
+<script type="text/javascript">
+    function DropDown(el) {
+        this.dd = el;
+        this.initEvents();
+    }
+    DropDown.prototype = {
+        initEvents: function () {
+            var obj = this;
+
+            obj.dd.on('click', function (event) {
+                $(this).toggleClass('active');
+                event.stopPropagation();
+            });
+        }
+    }
+
+    $(function () {
+
+        var dd = new DropDown($('#login'));
+
+        $(document).click(function () {
+            // all dropdowns
+            $('.wrapper-dropdown').removeClass('active');
+        });
+
+    });
+
+</script>
+
+<link href="~/Content/css/styleJQ.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/css/fontawesome-all.css" rel="stylesheet" />
+<link href="//fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i"
+      rel="stylesheet">
+@*<link href="~/Content/bootstrap.min.css" rel="stylesheet" />*@
+
+
+<div id="popup_login">
+    <div class=" w3l-login-form ">
+        <button id="close-button" type="submit">X</button>
+        <h2 class="JQ">Đăng Nhập Tại Đây</h2>
+        @using (Ajax.BeginForm("DangNhap", "Home", new AjaxOptions { InsertionMode=InsertionMode.Replace,UpdateTargetId="ThongBao"}))
+        {       
+            <div class=" w3l-form-group">
+                <label>Tài khoản:</label>
+                <div class="groupJQ">
+                    <i class="fas fa-user"></i>
+                    <input type="text" name="txtTaiKhoan" class="form-control Taikhoan" placeholder="Username" />
+                </div>
+            </div>
+            <div class=" w3l-form-group">
+                <label>Mật Khẩu:</label>
+                <div class="groupJQ">
+                    <i class="fas fa-unlock"></i>
+                    <input type="password" name="txtMatKhau" class="form-control Matkhau" placeholder="Password"  />
+                </div>
+            </div>
+            <div class="forgot">
+                <a href="#" class="JQ">Quên mật khẩu?</a>
+                <h3 id="ThongBao" style="color:red"></h3>
+            </div>
+            
+            <button type="submit" id="btnLogin">Đăng Nhập</button>           
+        }
+        <p class=" w3l-register-p">Bạn chưa có tài khoản?<a href="@Url.Action("DangKy","Home")" class="registerJQ"> Đăng ký</a></p>
+    </div>
+</div>
+<style>
+    #popup_login {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.5);
+        z-index: 99;
+        display: none;
+    }
+</style>
+<script>
+    $("#btnDangNhap").click(function () {
+        $("#popup_login").show();
+        $(".h_menu").css("z-index", "0");
+    })
+    $("#close-button").click(function () {
+        $("#popup_login").hide();
+        $(".h_menu").css("z-index", "1");
+    })
+    //$("#btnLogin").click(function () {
+    //    var tk = $(".Taikhoan").val();
+    //    var mk = $(".Matkhau").val();
+
+    //    if (tk == ""||mk =="") {
+    //        alert("Lỗi");
+    //        return false;
+    //    }
+    //    //} else {
+    //    //    alert("Tài khoản: " + tk + "\n Mật Khẩu: " + mk);
+    //    //}
+    //})
+</script>
+

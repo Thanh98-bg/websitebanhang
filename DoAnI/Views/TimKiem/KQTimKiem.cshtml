@@ -1,0 +1,89 @@
+﻿@using DoAnI.Models;
+@using PagedList.Mvc;
+@model PagedList.IPagedList<SanPham>
+
+@{
+    ViewBag.Title = "KQTimKiem";
+    Layout = "~/Views/Layouts/ProductLayout.cshtml";
+}
+
+<div id="KQTimKiem">
+
+    <div class="section group">
+
+
+        @foreach (var item in Model)
+        {
+            <div class="grid_1_of_4 images_1_of_4">
+                <a href="@Url.RouteUrl("xemchitiet", new {@id = item.MaSP,@bidanh=item.BiDanh })"><img src="@Url.Content("~/Content/images/"+item.HinhAnh)" alt="" style="width:200px;height:230px;" /></a>
+                <h2>@item.TenSP </h2>
+                <p>Mô tả ngắn gọn</p>
+                <p><span class="strike">$100 </span><span class="price">@item.DonGia.Value.ToString("#,##") vnđ</span></p>
+                <div class="button">
+                    <span>
+                        <img src="~/Content/images/cart.jpg" alt="" />
+
+                        @Ajax.ActionLink("Thêm vào giỏ", "ThemGioHangAjax", "GioHang", new { @MaSP = item.MaSP }, new AjaxOptions { UpdateTargetId = "divGioHang", InsertionMode = InsertionMode.Replace }, new { @class = "btn cart-button " })
+                    </span>
+                </div>
+                <div class="button"><span><a href="preview-3.html" class="details">Details</a></span></div>
+            </div>
+        }
+    </div>
+</div>
+
+        
+
+
+   
+
+    <style>
+        .tim_kiem {
+            float: left;
+            border: 1px solid #DBDBDB;
+            position: relative;
+            width: 100%;
+            margin-left: 50px;
+        }
+            .tim_kiem input[type="text"] {
+                width: 40%;
+
+                height:30px;
+                padding: 10px 8px;
+                outline: none;
+                border: none;
+                background: none;
+                font-size: 14px;
+                color: #a5a5a5;
+                font-family: Arial;
+                outline: none;
+                margin: 0;
+            }
+        .tim_kiem input[type="submit"] {
+            border: none;
+            cursor: pointer;
+            color: #FFF;
+            font-size: 12px;
+            padding: 10px 15px;
+            height: 30px;
+
+            background: -webkit-gradient(linear,left top,left bottom,from(#70389C),to(#602D8D));
+            background: -moz-linear-gradient(top,#70389C,#602D8D);
+            background: -o-linear-gradient(top,#70389C,#602D8D);
+            background: -ms-linear-gradient(top,#70389C,#602D8D);
+            -webkit-transition: all .9s;
+            -moz-transition: all .9s;
+            -o-transition: all .9s;
+            -ms-transition: all .9s;
+            transition: all .9s;
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+    </style>
+    <script>
+        $(".cart-button").click(function () {
+            $.notify("Đã thêm vào giỏ hàng", "success");
+        })
+    </script>
+

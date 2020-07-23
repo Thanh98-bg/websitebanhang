@@ -1,0 +1,67 @@
+﻿@using DoAnI.Models
+@model IEnumerable<SanPham>
+
+<div class="h_menu">
+    <a id="touch-menu" class="mobile-menu" href="#">Menu</a>
+    <nav>
+        <ul class="menu list-unstyled">
+            <li><a href="@Url.Action("Index","Home")">TRANG CHỦ</a></li>
+            @foreach (var groupItem in Model.GroupBy(n => n.LoaiSanPham))
+            {
+                if (groupItem.Key != null)
+                {
+                    <li class="activate">
+                        <a href="#">@groupItem.Key.TenLoai</a>
+                        <ul class="sub-menu list-unstyled">
+                            <div class="nag-mother-list">
+                                <div class="navg-drop-main">
+                                    <div class="nav-drop">
+                                        @foreach (var item in groupItem.GroupBy(n => n.NhaSanXuat))
+                                        {
+                                            if (item.Key != null)
+                                            {
+                                                <li><a href="@Url.Action("SanPham", "SanPham", new {@MaLoaiSP = groupItem.Key.MaLoaiSP, @MaNSX = item.Key.MaNSX, @pagesize=2 })">@item.Key.TenNSX</a></li>
+                                            }
+                                        }
+                                    </div>
+                                    <div class="clear"> </div>
+                                </div>
+                            </div>
+                        </ul>
+                    </li>
+                }
+            }
+            
+            <li>
+                    <a href="#">Thương hiệu</a>
+                    <ul class="sub-menu list-unstyled sub-menu3">
+                        <div class="navg-drop-main">
+                            @foreach (var groupItem in Model.GroupBy(n => n.LoaiSanPham))
+                            {
+                                if (groupItem.Key != null)
+                                {
+                                     <div class="nav-drop">
+                                         <h2 style="color:#b200ff">@groupItem.Key.TenLoai</h2>
+                                         @foreach (var item in groupItem.GroupBy(n => n.NhaSanXuat))
+                                         {
+                                             if (item.Key != null)
+                                             {
+                                                <li><a href="@Url.Action("SanPham", "SanPham", new {@MaLoaiSP = groupItem.Key.MaLoaiSP, @MaNSX = item.Key.MaNSX })">@item.Key.TenNSX</a></li>                                                 
+                                             }
+                                         }
+                                    </div>
+                                }
+                            }                          
+                            <div class="clear"> </div> 
+                        </div>
+                    </ul>
+                </li>
+            <li><a href="#">Giới Thiệu</a></li>
+            @*<li><a href="#">Delivery</a></li>
+                <li><a href="faq.html">Faqs</a></li>*@
+            <li><a href="#">LIÊN HỆ</a></li>
+            <div class="clear"> </div>
+        </ul>
+    </nav>
+    <script src="~/Content/js/menu.js" type="text/javascript"></script>
+</div>

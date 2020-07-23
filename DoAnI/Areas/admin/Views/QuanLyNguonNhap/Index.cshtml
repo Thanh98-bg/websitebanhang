@@ -1,0 +1,67 @@
+﻿@using DoAnI.Models;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/admin/Views/Shared/AdminLayout.cshtml";
+    IEnumerable<NhaCungCap> lstNCC = ViewBag.LstNCC as IEnumerable<NhaCungCap>;
+    IEnumerable<NhaSanXuat> lstNSX = ViewBag.LstNSX as IEnumerable<NhaSanXuat>;
+}
+
+<h2 style="color: #00ffff;margin-top:20px; margin-bottom: 20px">NHÀ CUNG CẤP</h2>
+<div class="col-md-12">
+    <table class="table table-bordered">
+        <tr>
+            <th>Mã NCC</th>
+            <th>Tên NCC</th>
+            <th>Địa chỉ</th>
+            <th>Số Điện Thoại</th>
+            <th>Email</th>
+            <th>Fax</th>
+            <th></th>
+        </tr>
+        @foreach (var item in lstNCC)
+        {
+            <tr>
+                <td>@item.MaNCC</td>
+                <td>@item.TenNCC</td>
+                <td>@item.DiaChi</td>
+                <td>@item.SoDienThoai</td>
+                <td>@item.Email</td>
+                <td>@item.Fax</td>
+                <td>
+                    @Html.ActionLink("Sửa", "SuaNCC", new { @id = item.MaNCC })
+                    @Html.ActionLink("Xóa", "XoaNCC", new { @id = item.MaNCC })
+                </td>
+            </tr>
+        }
+    </table>
+    <a href="@Url.Action("ThemNCC")" class="btn btn-success">Thêm NCC</a>
+</div>
+<div class="clearfix"></div>
+<h2 style="color:#00ffff;margin-top:20px;margin-bottom:20px">NHÀ SẢN XUẤT</h2>
+<div class="col-md-12">
+    <table class="table table-bordered">
+        <tr>
+            <th>Mã NSX</th>
+            <th>Tên NSX</th>
+            <th>Thông tin</th>
+
+            <th></th>
+        </tr>
+        @foreach (var item in lstNSX)
+        {
+            <tr>
+                <td>@item.MaNSX</td>
+                <td>@item.TenNSX</td>
+                <td>@item.ThongTin</td>
+
+                <td>
+                    @Html.ActionLink("Sửa", "SuaNSX", new { @id = item.MaNSX })
+                    @Html.ActionLink("Xóa", "XoaNSX", new { @id = item.MaNSX })
+                </td>
+            </tr>
+        }
+    </table>
+    <a href="@Url.Action("ThemNSX")" class="btn btn-success">Thêm NSX</a>
+</div>
+
+

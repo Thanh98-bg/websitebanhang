@@ -1,0 +1,164 @@
+﻿@model DoAnI.Models.SanPham
+
+@{
+    ViewBag.Title = "TaoMoi";
+    Layout = "~/Areas/admin/Views/Shared/AdminLayout.cshtml";
+}
+@* Bước 1: Tạo control datetimepicker *@
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+    $(function () {
+        $("#datepicker").datepicker();
+    });
+</script>
+@* khai báo tinymce để dùng trình soạn văn bản *@
+<script src="~/Areas/admin/Content/tinymce/jquery.tinymce.min.js"></script>
+<script src="~/Areas/admin/Content/tinymce/tinymce.min.js"></script>
+<script type="text/javascript">
+
+    tinymce.init({
+        selector: 'textarea',
+        height: 500,
+        menubar: false,
+        plugins: [
+          'advlist autolink lists link image charmap print preview anchor',
+          'searchreplace visualblocks code fullscreen autoresize imagetools',
+          'insertdatetime media table paste code help wordcount save fullpage'
+        ],
+        toolbar: 'undo redo save | formatselect | ' +
+        ' bold italic backcolor | alignleft aligncenter ' +
+        ' alignright alignjustify | bullist numlist outdent indent |' +
+        ' removeformat | help image fullscreen',
+        content_css: [
+          '//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
+          '//www.tiny.cloud/css/codepen.min.css'
+        ]
+    });
+</script>
+<h2>Tạo Mới Sản Phẩm</h2>
+@using (Html.BeginForm("TaoMoi", "QuanLySanPham", FormMethod.Post, new { @enctype = "multipart/form-data" })) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        
+        <hr />
+        @Html.ValidationSummary(true)
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Tên sản phẩm:</label>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.TenSP)
+                    @Html.ValidationMessageFor(model => model.TenSP)
+                </div>
+</div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Bí danh:</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.BiDanh)
+                @Html.ValidationMessageFor(model => model.BiDanh)
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Nhà cung cấp:</label>
+            <div class="col-md-3 col-xs-3">
+                @Html.DropDownList("MaNCC", null, new { @class = "form-control" })
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Nhà sản xuất:</label>
+            <div class="col-md-3 col-xs-3">
+                @Html.DropDownList("MaNSX", null, new { @class = "form-control" })
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Loại sản phẩm:</label>
+            <div class="col-md-3 col-xs-3">
+                @Html.DropDownList("MaLoaiSP", null, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Đơn giá:</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DonGia)
+                @Html.ValidationMessageFor(model => model.DonGia)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Ngày cập nhập:</label>
+            <div class="col-md-10">
+                @Html.TextBox("NgayCapNhap", "", new { @id = "datepicker" })
+                @*<input name="NgayCapNhap" id="datepicker" type="text" />*@
+                @Html.ValidationMessageFor(model => model.NgayCapNhap)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Cấu hình</label>
+            <div class="col-md-10">
+                <textarea name="CauHinh" id="#full-featured-non-premium"></textarea>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Mô tả</label>
+            <div class="col-md-10">
+                <textarea name="MoTa" id="#full-featured-non-premium"></textarea>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Hình ảnh</label>
+            <div class="col-md-10">
+                <input type="file" name="HinhAnh" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Số lượng tồn</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.SoLuongTon)
+                @Html.ValidationMessageFor(model => model.SoLuongTon)
+            </div>
+        </div>
+
+      
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Mới:</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Moi)
+                @Html.ValidationMessageFor(model => model.Moi)
+            </div>
+        </div>
+
+      
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Đã xóa</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DaXoa)
+                @Html.ValidationMessageFor(model => model.DaXoa)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

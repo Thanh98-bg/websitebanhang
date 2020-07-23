@@ -1,0 +1,96 @@
+﻿@using DoAnI.Models;
+@model DonDatHang
+@{
+    ViewBag.Title = "DuyetDonHang";
+    Layout = "~/Areas/admin/Views/Shared/AdminLayout.cshtml";
+    IEnumerable<ChiTietDonDatHang> lstCTDH = ViewBag.lstCTDH as IEnumerable<ChiTietDonDatHang>;
+    var TongSP = lstCTDH.Sum(n => n.SoLuong);
+    decimal? TongTien = 0;
+    foreach (var item in lstCTDH)
+    {
+        TongTien += item.SoLuong * item.DonGia;
+    }
+
+}
+
+
+@using (Html.BeginForm())
+{
+    <h2 style="color:#fff">
+        Thông tin đơn hàng
+        @if (@Model != null) {
+            <span style=" color: #00ffff;">
+                @Model.KhachHang.TenKH
+            </span>
+        }
+    </h2>
+    <br />
+    @Html.Hidden("MaDDH", @Model.MaDDH)
+    <table class="table table-bordered">
+        <tr>
+            <td>Mã đơn hàng: @Model.MaDDH</td>
+            <td>Mã KH: @Model.KhachHang.MaKH</td>
+            <td>Tên KH: @Model.KhachHang.TenKH</td>
+            <td>Ngày đặt: @Model.NgayDat.Value.ToString("dd/MM/yyyy")</td>
+            <td>
+                Đã Giao:
+                <select name="TinhTrangGiaoHang">
+                    <option>@(@Model.TinhTrangGiaoHang^1)</option>
+                    <option selected>@Model.TinhTrangGiaoHang</option>
+                </select>
+            </td>
+            <td>
+                Đã thanh toán:
+                <select name="DaThanhToan">
+                    <option>@(!@Model.DaThanhToan)</option>
+                    <option selected>@Model.DaThanhToan</option>
+                </select>
+            </td>
+        </tr>
+    </table>
+    <table class="table table-bordered">
+        <tr>
+            <td><strong>Sản phẩm</strong></td>
+            <td><strong>Hình ảnh</strong></td>
+            <td><strong>Số lượng đặt</strong></td>
+            <td><strong>Đơn giá</strong></td>
+        </tr>
+        @foreach (var item in lstCTDH)
+        {
+            <tr>
+                <td>@item.TenSP</td>
+                <td><img src="@Url.Content("~/Content/images/"+@item.SanPham.HinhAnh)" style="width:70px;height:70px;" /></td>
+                <td>@item.SoLuong</td>
+                <td>@item.DonGia.Value.ToString("#,##") vnđ</td>
+            </tr>
+        }
+        <tr>
+            <td colspan="4" align="right">Tổng sản phẩm : @TongSP</td>
+        </tr>
+        <tr>
+            <td colspan="4" align="right">Tổng tiền thanh toán: @TongTien.Value.ToString("#,##") vnđ</td>
+        </tr>
+    </table>
+    <input type="button" value="In đơn hàng" id="btnIn" class="btn btn-info" />
+    <input type="submit" value="Lưu đơn hàng" class="btn btn-success" />
+}
+<script>
+    $("#btnIn").click(function () {
+        var content = "";
+        $(".table").each(function () {
+            content += '<table>' + $(this).html() + '</table>';
+        })
+        InDonHang(content);
+    })
+    //phương thức in
+    function InDonHang(content) {
+        var printWindow = window.open('', '', 'height=400,width=800');
+        printWindow.document.write('<html><head><title>Thông tin đơn hàng</title>');
+        printWindow.document.write('</head><body>');
+        printWindow.document.write(content);
+        printWindow.document.write('</body></html>');
+        printWindow.document.close();
+        printWindow.print();
+    }
+</script>
+

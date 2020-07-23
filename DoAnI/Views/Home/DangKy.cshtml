@@ -1,0 +1,75 @@
+﻿@using CaptchaMvc.HtmlHelpers;
+@using CaptchaMvc;
+@using DoAnI.Models;
+@model DoAnI.Models.ThanhVien
+
+@{
+    Layout = "~/Views/Layouts/ProductLayout.cshtml";
+}
+
+
+<div class="register_account">
+    <span style="color:red">@ViewBag.ThongBao</span>
+    <h2>Đăng ký thành viên</h2>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <hr />
+        @Html.ValidationSummary(true)
+        <div class="register_account">
+            <div class="col-md-6">
+                <h3>Thông tin cá nhân</h3>
+                <span>Họ và Tên</span>
+                @Html.TextBoxFor(model => model.HoTen)
+                @Html.ValidationMessageFor(model => model.HoTen)
+                <div class="clear"></div>
+                <span>Địa Chỉ</span>
+                @Html.TextAreaFor(m => m.DiaChi, new { @style = "width:100%;" })
+                @Html.ValidationMessageFor(model => model.DiaChi)
+                <div class="clear"></div>
+                <span>Email</span>
+                @Html.TextBoxFor(model => model.Email)
+                @Html.ValidationMessageFor(model => model.Email)
+                <div class="clear"></div>
+                <span>Số Điện Thoại</span>
+                @Html.TextBoxFor(model => model.SoDienThoai)
+                @Html.ValidationMessageFor(model => model.SoDienThoai)
+            </div>
+            <div class="col-md-6">
+                <h3>Thông Tin Đăng Nhập</h3>
+                <span>Tài Khoản</span>
+                @Html.TextBoxFor(model => model.TaiKhoan)
+                @Html.ValidationMessageFor(model => model.TaiKhoan)
+                <div class="clear"></div>
+                <span>Mật Khẩu</span>
+                <div class="clear"></div>
+                @Html.PasswordFor(model => model.MatKhau)
+                <div class="clear"></div>
+                @Html.ValidationMessageFor(model => model.MatKhau)
+                <div class="clear"></div>
+                <span>Câu hỏi bí mật</span>
+                <div class="clear"></div>
+                @Html.DropDownList("CauHoi")
+                <div class="clear"></div>
+                <span>Câu Trả Lời</span>
+                @Html.TextBoxFor(model => model.CauTraLoi)
+                @Html.ValidationMessageFor(model => model.CauTraLoi)
+                <div>
+                    @Html.MathCaptcha()
+                    <span style="color:red">@ViewBag.Captcha</span>
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+        <div class="search"><div><button class="grey">Tạo Tài Khoản</button></div></div>
+
+        <div class="clear"></div>
+    }
+</div>
+<div class="clear"></div>
+<style>
+    .field-validation-error{
+        color:red;
+        font-size:14px;
+    }
+</style>
